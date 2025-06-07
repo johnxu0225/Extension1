@@ -1,17 +1,15 @@
-document.getElementById('upload').addEventListener('change', function (e) {
-  const file = e.target.files[0];       //Get the uploaded image
-  if (!file) return;
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get("ocrText", (result) => {
+    if (result.ocrText) {
+      document.getElementById("output").innerText = result.ocrText;
+      chrome.storage.local.remove("ocrText");
+    }
+  });
+});
 
-  const reader = new FileReader();
-  reader.onload = function () {
-    // Perform OCR with Tesseract
-    Tesseract.recognize(
-      reader.result,     //Image in base64 format
-      'eng',             //Language (English)
-      { logger: m => console.log(m) }  //Optional: logs OCR progress
-    ).then(({ data: { text } }) => {
-      document.getElementById('output').innerText = text;  //Show result
-    });
-  };
-  reader.readAsDataURL(file);  //Read image as data URL for OCR
+document.getElementById("screenshotBtn").addEventListener("click", async () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { action: "show-overlay" });
+  });
+  document.getElementById("output").innerText = "Select a region...";
 });

@@ -1,13 +1,22 @@
 {
-  "manifest_version": 3,                
-  "name": "Image Text Reader",          
-  "version": "1.0",                   
-  "description": "Reads text from images using OCR",  
-  "permissions": ["activeTab", "scripting"],  
+  "manifest_version": 3,
+  "name": "Text Grabber",
+  "version": "1.1",
+  "description": "Capture screen and extract text",
+  "permissions": ["activeTab", "scripting", "tabCapture", "tabs"],
   "action": {
-    "default_popup": "popup.html",     
-    "default_icon": "icon.png"         
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
   },
-  "host_permissions": ["<all_urls>"],  
-  "content_scripts": []               
+  "background": {
+    "service_worker": "capture.js",
+    "type": "module"
+  },
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["overlay.js"]
+    }
+  ]
 }
