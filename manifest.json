@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,                
+  "name": "Image Text Reader",          
+  "version": "1.0",                   
+  "description": "Reads text from images using OCR",  
+  "permissions": ["activeTab", "scripting"],  
+  "action": {
+    "default_popup": "popup.html",     
+    "default_icon": "icon.png"         
+  },
+  "host_permissions": ["<all_urls>"],  
+  "content_scripts": []               
+}
